@@ -1,0 +1,110 @@
+﻿<div class="container-fluid">
+	<h4 class="page-title">Dashboard</h4>
+	<div *ngIf="Role == '4'">
+		<div class="row">
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="card card-dark bg-secondary-gradient">
+					<div class="card-body skew-shadow">
+						<h1><i class="ion ion-ios-home-outline"></i></h1>
+						<h5 class="op-8">Companies</h5>
+						<div class="pull-right">
+							<h3 class="fw-bold op-8">{{companiesLength}}</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="card card-dark bg-secondary-gradient">
+					<div class="card-body bubble-shadow">
+						<h1><i class="la la-user"></i></h1>
+						<h5 class="op-8">Mentor</h5>
+						<div class="pull-right">
+							<h3 class="fw-bold op-8">{{mentorsLength}}</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="card card-dark bg-secondary-gradient">
+					<div class="card-body curves-shadow">
+						<h1><i class="la la-dashboard"></i></h1>
+						<h5 class="op-8">Quiz</h5>
+						<div class="pull-right">
+							<h3 class="fw-bold op-8">6</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="card card-dark bg-secondary-gradient">
+					<div class="card-body bubble-shadow">
+						<h1><i class="la la-certificate"></i></h1>
+						<h5 class="op-8">Certifications</h5>
+						<div class="pull-right">
+							<h3 class="fw-bold op-8">5</h3>
+						</div>
+					</div>
+				</div>
+			</div> -->
+		</div>
+	</div>
+
+	<div *ngIf="Role == '1'">
+		<div class="row">
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="card card-dark bg-secondary-gradient">
+					<div class="card-body skew-shadow">
+						<h1><i class="ion ion-arrow-graph-up-right"></i></h1>
+						<h5 class="op-8">Overall</h5>
+						<div class="pull-right">
+							<h3 class="fw-bold op-8">12</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="card card-dark bg-secondary-gradient">
+					<div class="card-body bubble-shadow">
+						<h1><i class="ion ion-arrow-graph-up-right"></i></h1>
+						<h5 class="op-8">Your OKRs</h5>
+						<div class="pull-right">
+							<h3 class="fw-bold op-8">20</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="card card-dark bg-secondary-gradient">
+					<div class="card-body bubble-shadow">
+						<h1><i class="ion ion-arrow-graph-up-right"></i></h1>
+						<h5 class="op-8">Team</h5>
+						<div class="pull-right">
+							<h3 class="fw-bold op-8">20</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<div class="card card-dark bg-secondary-gradient">
+					<div class="card-body bubble-shadow">
+						<h1><i class="ion ion-arrow-graph-up-right"></i></h1>
+						<h5 class="op-8">Company</h5>
+						<div class="pull-right">
+							<h3 class="fw-bold op-8">20</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<div class="infoMsg">
+					<h1>{{greet}}, {{user.data[0].UserName}} <i class="la la-hand-peace-o"></i></h1>
+					<h5>Your next weekly check-in is due in 3 days. The quarter ends this week.</h5>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>

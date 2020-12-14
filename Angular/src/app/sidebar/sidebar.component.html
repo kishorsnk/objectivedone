@@ -1,0 +1,287 @@
+<div class="sidebar">
+  <div class="scrollbar-inner sidebar-wrapper" *ngIf="role == '4'">
+    <ul class="nav">
+      <li class="nav-item">
+        <a></a>
+      </li>
+      <li class="nav-item">
+        <a class="sideAnTag" [routerLink]="'/'">
+          <i class="la la-dashboard"></i>
+          <p>Dashboard</p>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="role == '4'">
+        <a class="sideAnTag" [routerLink]="'/userManagement'">
+          <i class="la la-user"></i>
+          <p>User Management</p>
+        </a>
+      </li>
+      <!-- <li class="nav-item">
+        <a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+          <i class="la la-graduation-cap"></i>
+          <p>All Courses</p>
+          <span class="caret"></span>
+        </a>
+        <div class="collapse" id="dashboard">
+          <ul class="nav nav-collapse">
+            <li>
+              <a href="all-courses.html">
+                <span class="sub-item"><i class="la la-check"></i> Course 1</span>
+              </a>
+            </li>
+            <li>
+              <a href="all-courses.html">
+                <span class="sub-item"><i class="la la-check"></i> Course 2</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li> -->
+
+      
+    </ul>
+  </div>
+  <div class="scrollbar-inner sidebar-wrapper" *ngIf="role != '4'">
+    <div class="primarynav">
+      <ul class="nav nav-list">
+        <li class="home">
+            <a [routerLink]="'/'"><i class="ion ion-ios-home"></i> <span>Home</span></a>
+        </li>
+        <li class="weekly" [routerLinkActive]="['active']">
+            <a [routerLink]="'/Checkins'"><i class="ion ion-ios-calendar"></i> <span>Weekly Check-ins</span></a>
+        </li>
+        <li class="quarterly" [routerLinkActive]="['active']">
+            <a [routerLink]="'/okr'"><i class="ion ion-pie-graph"></i> <span>Quarterly Objectives</span></a>
+        </li>
+      </ul>
+      <!-- <ul class="nav nav-list secondary">
+        <li>
+            <a href="" class="intercom-launcher"><i class="fad fa-comment-dots"></i> <span>Support chat</span> <span style="margin-top:-15px;position:absolute;right:6px;top:50% !important;" class="badge badge-important hidden"></span></a>
+        </li>
+        <li>
+            <a href=""><i class="fad fa-question-circle" data-original-title=""></i> <span>Help</span> </a>
+        </li>
+      </ul> -->
+
+      
+
+
+    </div>
+    <div class="secondarynav">
+        <div class="user">
+            <div class="photo">
+                <img src="assets/img/profile.jpg">
+            </div>
+            <div class="info">
+                <a [routerLink]="'/'" class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+                    <span>
+                        {{CurrentUserName}}
+                        <span class="user-level" *ngIf="role == 1">Company</span>
+                        <span class="user-level" *ngIf="role == 3">Member</span>
+                    </span>
+                </a>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="sideAnTag" (click)="getLink('company','','')">
+              <i class="la la-dashboard"></i>
+              <p>Company</p>
+            </a>
+          </li>
+
+          <li class="nav-item" *ngFor="let team of sidebarMenu;let i = index;">
+            <a class="sideAnTag" (click)="getLink('team',team.id,'')">
+              <i class="la la-users"></i>
+              <p>{{team.TeamName}}</p>
+              <a data-toggle="collapse" href="#dashboard{{i}}" class="arrow collapsed"  aria-expanded="false">
+                <span class="la la-angle-down"></span>
+              </a>
+            </a>
+            <div class="collapse" id="dashboard{{i}}">
+              <ul class="nav nav-collapse" >
+                <li *ngFor="let member of team.members;let i = index;">
+                  <a class="sideAnTag" (click)="getLink('member',team.id,member.id)">
+                    <span class="sub-item"><i class="la la-user"></i>{{member.UserName}}</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+
+        </ul>
+        <ul class="nav" *ngIf="role == '1'">
+          <li (click)="OpenPopup()" class="nav-item" style="border-bottom: 1px solid #eee;">
+            <a class="sideAnTag">
+              <i class="la la-plus"></i>
+              <p>Add Team</p>
+            </a>
+          </li>
+          <li class="nav-item" (click)="OpenInvitePopup()" style="border-bottom: 1px solid #eee;">
+            <a class="sideAnTag">
+              <i class="la la-user"></i>
+              <p>Invite People</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="sideAnTag" [routerLink]="'/MemberManagement'">
+              <i class="la la-user"></i>
+              <p>Member Management</p>
+            </a>
+          </li>
+        </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Add Team Start -->
+<ng-template #team_create_content let-c="close" let-d="dismiss">
+    <form method="post" (submit)="createTeam()">
+        <div class="modal-header">
+            <h4 class="modal-title">Add Team</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <div class="input-group">
+                        <input type="text" [(ngModel)]="teamName" name="teamName"
+                            class="form-control" placeholder="Team Name">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-orange">Add Team</button>
+            <button type="button" (click)="d('Cross click')" class="btn btn-orange">Close</button>
+        </div>
+    </form>
+</ng-template>
+<!-- Add Team End -->
+
+<!-- Invite Team Start -->
+<ng-template #invite_content let-c="close" let-d="dismiss">  
+    <div class="modal-header">
+        <h4 class="modal-title">Invite People</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-12">
+          <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="pill" href="#invitebyemail" role="tab"
+                aria-controls="pills-profile" aria-selected="false">Invite By E-Mail</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="pill" href="#invitebylink" role="tab"
+                aria-controls="pills-profile" aria-selected="false">Invite By Link</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="tab-content mt-2 mb-3" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="invitebyemail" role="tabpanel" aria-labelledby="Invite By E-Mail">
+              <form [formGroup]="inviteByEmailForm" (ngSubmit)="onSubmitByEmail();">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Team</label>
+                            <select formControlName="companyTeam" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.companyTeam.errors }">
+                                <option value="">- Choose a team -</option>
+                                <option *ngFor="let option of companyTeams; index as i" [value]="option.id">
+                                    {{option.TeamName}}</option>
+                            </select>
+                            <div *ngIf="submitted && f.companyTeam.errors" class="invalid-feedback">
+                                <div *ngIf="f.companyTeam.errors.required">Team is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Emails</label>
+                            <textarea formControlName="emails" class="form-control" placeholder="Insert emails, separated with a comma" [ngClass]="{ 'is-invalid': submitted && f.emails.errors }"></textarea>
+                            <div *ngIf="submitted && f.emails.errors" class="invalid-feedback">
+                                <div *ngIf="f.emails.errors.required">Email Id is required</div>
+                                <div *ngIf="forbidden">Email must be a valid email address</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea formControlName="message" class="form-control" placeholder="Add your personal message to invitees (optional)"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <div class="float-right">
+                          <button type="submit" class="btn btn-orange mr-1">Invite</button>
+                          <button type="button" class="btn btn-orange" (click)="onResetByEMail()">Reset</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="tab-pane fade" id="invitebylink" role="tabpanel" aria-labelledby="Invite By Link">
+              <form [formGroup]="inviteByLinkForm" (ngSubmit)="onSubmitByLink();">
+                <div class="row">
+                  <div class="col-12">
+                      <div class="form-group">
+                          <label>Team</label>
+                          <select formControlName="InviteTeam" class="form-control" (change)="onSubmitByLink()">
+                              <option value="">- Choose a team to get the links -</option>
+                              <option *ngFor="let option of companyTeams; index as i" [value]="option.id">
+                                  {{option.TeamName}}</option>
+                          </select>
+                      </div>
+                  </div>
+                </div>
+              </form>
+              <div class="row">                
+                <div class="col-12">
+                  <div class="form-group" *ngIf="submittedLink">
+                    <label>Invitation link</label>
+                    <div class="input-group">
+                        <input type="text" name="invitationLink" [(ngModel)]="invitationLink" class="form-control" placeholder="Invitation link" id="i_link" disabled="true">
+                        <div class="input-group-append">
+                          <button (click)="copyToClipboard()" class="btn btn-raised btn-primary" type="button">Copy invite
+                                link</button>
+                        </div>
+                    </div>              
+                  </div>
+                  <div *ngIf="submittedLink" class="info-info" role="alert">Share this invitation link with your colleagues. When they sign up, you have to approve their registration requests in the People &amp; Teams section in Settings.</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <button class="btn btn-orange float-right" (click)="d('Cross click')" >Done</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</ng-template>
+<!-- Invite Team End -->
+
+<div class="loader" *ngIf="loading">
+<div class="loader-inner ball-scale-multiple">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+</div>

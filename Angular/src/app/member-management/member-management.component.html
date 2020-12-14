@@ -1,0 +1,71 @@
+<div class="container-fluid">
+  <h4 class="page-title">Members Management</h4>
+  <div class="card">
+    <div class="card-body" style="min-height: 400px; position: relative;">
+        <div class="row">
+          	<div class="col-12">
+                <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="pill" href="#members" role="tab"
+                      aria-controls="pills-profile" aria-selected="false">Members</a>
+                  </li>
+                </ul>
+          	</div>
+      	</div>
+      	<div class="row">
+          	<div class="col-12">
+                <div class="tab-content mt-2 mb-3" id="pills-tabContent">
+
+                    <div class="tab-pane fade show active" id="members" role="tabpanel" aria-labelledby="Members">
+                        <div class="row">
+                            <div class="col-12">          
+                              <div class="table-responsive">
+                                <table class="table table-bordered">
+                                  <thead class="thead-light">
+                                    <tr class="text-center">
+                                      <th>Name</th>
+                                      <th>Mobile No</th>
+                                      <th>Email Id</th>
+                                      <th>Register Date</th>
+                                      <th>Active</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let user of allMembers | paginate: { itemsPerPage: 10, currentPage: p }; let id = index">
+                                      <td>{{user.UserName}}</td>
+                                      <td>{{user.Phone}}</td>
+                                      <td>{{user.Email}}</td>
+                                      <td>{{user.CreatedDate | date: 'dd-MM-yyyy'}}</td>
+                                      <td>
+                                        <div class="toggleSwitch">
+                                          <!-- <button type="button" class="btn btn-sm btn-toggle" [ngClass]="user.IsActive == 1 ? 'active' : 'false'" data-toggle="button" (click)="userStatus(user.IsActive, user.id)">
+                                            <div class="handle"></div>
+                                          </button> -->
+                                          <label class="switch" (change)="userStatus(user.IsActive, user.id)">
+                                            <input type="checkbox" [checked]="user.IsActive=='1'">
+                                            <span class="slider round"></span>
+                                          </label>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                              <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                            </div>
+                          </div>
+                    </div>
+                    
+                </div>
+          </div>
+      </div> 
+    </div>
+  </div>
+</div>
+<div class="loader" *ngIf="loading">
+<div class="loader-inner ball-scale-multiple">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+</div>

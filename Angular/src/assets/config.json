@@ -1,0 +1,79 @@
+[
+    {
+      "Image": "assets/equipimage/PTM.jpg",
+      "Level": 1, 
+      "RefID": "1.1.1", 
+      "Parent": "Prep", 
+      "Desc": "Collect and check tools and equipment like scraper,broom,chalk marking tool and marking cup  for presence of moisture . Pre-heat if required "
+    }, 
+    {
+      "Image": "assets/equipimage/PTM.jpg",
+      "Level": 1, 
+      "RefID": "1.1.2", 
+      "Parent": "Prep", 
+      "Desc": "ensure correct no of anode and scoop bath pallets. "
+    }, 
+    {
+      "Image": "assets/equipimage/PTM.jpg",
+      "Level": 1, 
+      "RefID": "1.1.3", 
+      "Parent": "Prep", 
+      "Desc": "ensure all scoop pallets are dry "
+    }, 
+    {
+      "Image": "assets/equipimage/PTM.jpg",
+      "Level": 1, 
+      "RefID": "1.1.4", 
+      "Parent": "Prep", 
+      "Desc": "Pallet to be positioned between 2 yellow lines as ear-marked "
+    }, 
+    {
+      "Image": "assets/equipimage/PTM.jpg",
+      "Level": 1, 
+      "RefID": "1.1.5", 
+      "Parent": "Prep", 
+      "Desc": "Gradienter to be shifted through fork lift "
+    }, 
+    {
+      "Image": "assets/equipimage/PTM.jpg",
+      "Level": 1, 
+      "RefID": "1.1.6", 
+      "Parent": "Prep", 
+      "Desc": "Ensure gradienter is clean "
+    }, 
+    {
+      "Image": "assets/equipimage/PTM.jpg",
+      "Level": 1, 
+      "RefID": "1.1.7", 
+      "Parent": "Prep", 
+      "Desc": "Ensure laser fitting , battery connection and switch are in working condition "
+    }, 
+    {
+      "Image": "assets/equipimage/PTM.jpg",
+      "Level": 1, 
+      "RefID": "1.1.8", 
+      "Parent": "Prep", 
+      "Desc": "ensure pot  has more than 12cm of bath "
+    }, 
+    {
+      "Image": "assets/equipimage/PTM.jpg",
+      "Level": 1, 
+      "RefID": "1.1.9", 
+      "Parent": "Prep", 
+      "Desc": "PPEs like safety shoes leg guard, ear plug,safety goggles,helmet, respirator"
+    }, 
+    {
+      "Image": "assets/equipimage/PTM.jpg",
+      "Level": 1, 
+      "RefID": "1.1.10", 
+      "Parent": "Prep", 
+      "Desc": "PTM checklist to be filled "
+    }, 
+    {
+      "Image": "assets/equipimage/PTM.jpg",
+      "Level": 1, 
+      "RefID": "1.1.11", 
+      "Parent": "Prep", 
+      "Desc": "Check reference chalk lines on both anode stems are clear"
+    }
+  ]

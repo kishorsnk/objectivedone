@@ -1,0 +1,80 @@
+﻿
+  <div class="row">
+    <div class="col-12">
+      <img src="assets/img/logo.png" class="img-responsive sitelogo" style="margin: 15px auto;max-width: 200px;display: block;" alt="Objective Done"/>
+    </div>
+  </div>
+  <div class="row">
+    <div class="offset-sm-2 col-sm-8">
+        <div class="card">
+          <!--   <h4 class="card-header">Login</h4> -->
+            <div class="card-body">
+              <div class="loginBlock" *ngIf="loginMode">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                  <h4 class="card-title mb-2" style="margin-left:9px;">Login</h4>
+                  <div class="form-group">
+                    <label for="email_id">Email Id</label>
+                    <input type="text" formControlName="email_id" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.email_id.errors }" />
+                    <div *ngIf="submitted && f.email_id.errors" class="invalid-feedback">
+                      <div *ngIf="f.email_id.errors.required">Email Id is required</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" formControlName="password" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                      <div *ngIf="f.password.errors.required">Password is required</div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <a (click)="changeView('forgot')" class="btn btn-link pull-right forgotpassword">Forgot Password</a>
+                    </div>
+                  </div>                  
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <a routerLink="../register" class="btn btn-primary pull-left" >                      
+                          Register
+                        </a>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                        <button [disabled]="loading" class="btn btn-primary pull-right">
+                          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                          Login
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                    
+                </form>
+              </div>
+              <div class="loginBlock" *ngIf="!loginMode">
+                <form [formGroup]="formforgot" (ngSubmit)="forgotPassword()">
+                  <h4 class="card-title mb-2">Forgot Password</h4>                  
+                  <div class="form-group">
+                    <label for="email_id">Email Id</label>
+                    <input type="text" formControlName="email_id" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && ff.email_id.errors }" />
+                    <div *ngIf="submitted && ff.email_id.errors" class="invalid-feedback">
+                      <div *ngIf="ff.email_id.errors.required">Email Id is required</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <button [disabled]="loading" class="btn btn-primary pull-right">
+                      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                      Forgot Password
+                    </button>
+                    <a (click)="changeView('login')" class="btn btn-link forgotpassword">Login</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+    </div>
+  </div>
+

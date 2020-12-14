@@ -1,0 +1,778 @@
+<div class="container-fluid">
+  	<div class="pageHeader">
+  		<div class="row mb-3">
+  			<div class="offset-sm-4 col-sm-4">
+  				<div class="phTitle">
+  					<h4>{{workingUserName}}</h4>
+  				</div>
+  			</div>
+  			<div class="col-sm-4">
+  				<div class="headerActions"> 					
+					<ul class="actionsUl">
+						<li class="float-right">
+							<a href="">This Quarter</a>
+						</li>
+					</ul>  						
+  				</div>	
+  			</div>
+  		</div>
+  		<div class="row">
+	      	<div class="col-12">
+                <ul class="nav nav-pills nav-secondary justify-content-center" id="pills-tab" role="tablist" style="border-bottom: 1px solid #ddd;">
+                  	<li class="nav-item">
+                    	<a class="nav-link active" data-toggle="pill" href="" role="tab"
+                      aria-controls="pills-profile" aria-selected="false">Dashboard</a>
+                  	</li>
+                  	<li class="nav-item">
+                    	<a class="nav-link" data-toggle="pill" href="" role="tab"
+                      aria-controls="pills-profile" aria-selected="false">Hierarchy</a>
+                  	</li> 
+                  	<li class="nav-item">
+                    	<a class="nav-link" data-toggle="pill" href="" role="tab"
+                      aria-controls="pills-profile" aria-selected="false">Tree</a>
+                  	</li> 
+                  	<li class="nav-item">
+                    	<a class="nav-link" data-toggle="pill" href="" role="tab"
+                      aria-controls="pills-profile" aria-selected="false">Timeline</a>
+                  	</li> 
+                </ul>
+                <!-- <ul class="semiCircleMenu">
+                	<li class="active">
+                		<a href="">
+                			Only Sublevels
+                		</a>
+                	</li>
+                	<li>
+                		<a href="">
+                			All Levels
+                		</a>
+                	</li>
+                </ul> -->
+	        </div>
+	    </div>
+  	</div>
+
+    <div class="row" *ngIf="objOkrs.length == 0">
+      <div class="offset-sm-3 col-sm-6">
+        <div class="noObjectives mt-2 mb-2 text-center">
+          <img src="assets/img/okr.png" class="img-fluid" />
+          <h4>No Objectives</h4>
+          <p>Just getting started? Start creating objectives</p>
+        </div>
+      </div>
+    </div>
+
+
+  	<div class="objectiveSection mt-4 ml-3">
+  		<div class="objTitleBar mt-3 mb-3">
+  			<h4>Objectives</h4>
+  		</div>
+  		<div class="objItems">
+  			<div id="accordion" class="accordion">
+		        <div class="card mb-0">
+		            <div class="card-header collapsed" data-toggle="collapse" href="#companyObjectives">
+		                <a class="card-title">
+	                   	<img src="assets/img/logo-small.png" class="logo-small" alt="OD" /> 
+                      <span *ngIf="workingUser == 'Company'">Company Objectives</span>
+                      <span *ngIf="workingUser != 'Company'">{{workingUserName}}</span>
+	                   	
+	                   	<!-- <div class="progress progress-lg ml-3 mr-3">
+		                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" style="width: 100%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">5</div>
+		                  </div> -->
+		                </a>
+		            </div>
+		            <div id="companyObjectives" class="card-body collapse show" data-parent="#accordion">
+
+		                <div class="row">
+                      <div class="col-12">
+                        <ul class="accorMain" *ngIf="objOkrs.length > 0">
+                          
+                          <li  class="accorTab " *ngFor="let obj of objOkrs;let i = index;">
+                            
+                            <div class="item" *ngIf="editObj?.id!=obj?.id">
+                              <div class="primary" >
+                                <a  (click)="assignItem('Objective',obj,'member',obj.id)" class="fontHover">
+                                  <i class="la la-circle"></i>
+                                  <i class="la la-unlink"></i>
+                                </a>
+                                <a (click)="assignItem('Objective',obj,'team',obj.id)" class="fontHover">
+                                  <i class="la la-circle"></i>
+                                  <i class="la la-unlink"></i>
+                                </a>
+                                <a (click)="assignItem('Objective',obj,'company',obj.id)" class="fontHover">
+                                  <i class="la la-circle"></i>
+                                  <i class="la la-unlink"></i>
+                                </a>
+                              </div>
+                              <div class="primary" >
+                                <a class="OKRSS" tooltip="{{ getAssingedUser(obj.AssignedToOkrUserType,obj.AssignToOkrUserId) }} Obj" placement="top">
+                                  <span>{{ this.getNameSymbol(getAssingedUser(obj.AssignedToOkrUserType,obj.AssignToOkrUserId)) }}</span>
+                                </a>
+                              </div>
+                              <div class="primary" >
+                                <a class="OKRSS" tooltip="{{ getAssingedUser(obj.AssignedByOkrUserType,obj.AssignByOkrUserId) }} Obj" placement="top">
+                                  <span>{{ this.getNameSymbol(getAssingedUser(obj.AssignedByOkrUserType,obj.AssignByOkrUserId)) }}</span>
+                                </a>
+                              </div>
+                              <div class="content">
+                                <a data-toggle="collapse" href="#objKeys{{i}}" class="collapsed" aria-expanded="false">
+                                  <b class="dib"><span class="desc">{{obj.ObjectiveName}}</span></b>
+                                </a>
+                                <div class="progress inline-progress progress-lg ml-3 mr-3">
+                                  <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" [ngClass]="{'bg-default': obj.ProgressValue == 0,'bg-danger': obj.ProgressValue >= 0 && obj.ProgressValue <= 33,'bg-warning': obj.ProgressValue >= 33 && obj.ProgressValue <= 66,'bg-success': obj.ProgressValue >= 66 && obj.ProgressValue <= 99,'bg-info': obj.ProgressValue == 100}" [ngStyle]="{'width': obj.ProgressValue+'%'}" [ngStyle]="{'width': obj.ProgressValue+'%'}" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">{{obj.ProgressValue}}</div>
+                                </div> 
+                              </div>
+                              <!-- <div class="actions printActions">
+                                <a href=""><i class="la la-external-link"></i></a>
+                                <a href=""><i class="la la-comments"></i></a> 
+                                <a href=""><i class="ion ion-android-more-vertical"></i></a>
+                              </div> -->
+                              <div class="actions">
+                                <button class="btn-outline-o proVal">{{obj.ProgressValue}}%</button>
+                                <button class="btn-outline-o"><i class="la la-external-link"></i></button>
+                                <div ngbDropdown class="d-inline-block">
+                                  <button class="btn-outline-o" id="dropdownBasic1" ngbDropdownToggle><i class="ion ion-android-more-vertical"></i></button>
+                                  <div class="hiddendropmenu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <button (click)="setDueDate('setObj',obj);OpenPopup(dueDate_template);" ngbDropdownItem><i class="la la-clock-o"></i>
+                                      <span [hidden]="obj.DueQuarter!='0'"> {{'Due '+obj.DueYear}}</span>
+                                      <span [hidden]="obj.DueQuarter=='0'"> {{'Due Q'+obj.DueQuarter+' '+obj?.DueYear}}</span>
+                                    </button>
+                                    <button (click)="menuSelected('edit_obj',obj,$event)" ngbDropdownItem><i class="la la-edit"></i> Edit</button>
+                                    <button (click)="Objective('delete',$event,obj.id)" ngbDropdownItem><i class="la la-trash"></i> Delete</button>
+                                    <span *ngIf="workingUser == 'Company'">
+                                        <button *ngIf="obj.AssignedToOkr != '0'" (click)="UnlinkFromKeyResult('company',obj.AssignedToOkr)" ngbDropdownItem><i class="la la-unlink"></i> Unlink from KeyResult</button>
+                                    </span>
+                                    <span *ngIf="workingUser == 'Team'">
+                                        <button *ngIf="obj.AssignedToOkr != '0'" (click)="UnlinkFromKeyResult('team',obj.AssignedToOkr)" ngbDropdownItem><i class="la la-unlink"></i> Unlink from KeyResult</button>
+                                    </span>
+                                    <span *ngIf="workingUser == 'Member'">
+                                        <button *ngIf="obj.AssignedToOkr != '0'" (click)="UnlinkFromKeyResult('member',obj.AssignedToOkr)" ngbDropdownItem><i class="la la-unlink"></i> Unlink from KeyResult</button>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                            <!-- Edit Object Field Start -->
+                            <ul class="comments mt-1 newObjField db" *ngIf="editObj?.id==obj?.id">
+                              <li class="add active pl0">
+                                  <div class="item">
+                                      <div class="primary">                                            
+                                        <a>
+                                          <i class="ion ion-ios-plus-outline"></i>
+                                        </a>
+                                      </div>
+                                      <div class="content">
+                                          <form class="form-horizontal addcomment cleafix" (submit)="Objective('update',$event,obj.id)" style="margin:0;">
+                                              <input id="obj_edit_input_{{obj?.id}}" placeholder="Edit a quarterly objective for {{workingUserName}}" type="text" autocomplete="off">
+                                          </form>
+                                          
+                                      </div>
+                                      <div class="actions editActions">
+                                            <span tooltip="Mention somebody" placement="top"><i class="fa fa-at" aria-hidden="true"></i></span>
+                                            <span tooltip="Add tag" placement="top"><i class="fa fa-hashtag" aria-hidden="true"></i></span>
+                                            <span tooltip="Toggle item privacy" placement="top"><i class="fa fa-eye fa-fw" aria-hidden="true"></i></span>
+                                            <span tooltip="Add emoji" placement="top"><i class="fa fa-smile-o" aria-hidden="true"></i></span>
+                                          <span tooltip="Cancel" (click)="editObj=''" placement="top"><i class="ion ion-close-circled" aria-hidden="true"></i></span>
+                                      </div>
+                                  </div>
+                              </li>
+                            </ul>
+                            <!-- Edit Object Field End -->
+
+                            <!-- KeyResult Section Start -->
+                            <ul class="keyResults collapse" id="objKeys{{i}}">
+                              <li class="lock" >
+                                <div class="item" *ngIf="editOkrSel != okr?.id">
+                                  <div class="primary" >
+                                      <a *ngIf="workingUser == 'Member'" (click)="assignItem('KeyResult',okr,'member',obj.MemberId)" class="KR" tooltip="Assign Key Result as an Objective" placement="top">
+                                        <span>KR</span>
+                                        <i class="ion ion-reply-all"></i>
+                                      </a>
+                                      <a *ngIf="workingUser == 'Team'" (click)="assignItem('KeyResult',okr,'team',obj.TeamId)" class="KR" tooltip="Assign Key Result as an Objective" placement="top">
+                                        <span>KR</span>
+                                        <i class="ion ion-reply-all"></i>
+                                      </a>
+                                      <a *ngIf="workingUser == 'Company'" (click)="assignItem('KeyResult',okr,'company',obj.CompanyId)" class="KR" tooltip="Assign Key Result as an Objective" placement="top">
+                                        <span>KR</span>
+                                        <i class="ion ion-reply-all"></i>
+                                      </a>
+                                  </div>
+                                  <div class="primary">
+                                      <a class="OKRSS" tooltip="Linked Objective from {{getAssingedUser(okr.AssignedToUserType,okr.AssignedToUser)}}" placement="top">
+                                        <span>{{getNameSymbol(getAssingedUser(okr.AssignedToUserType,okr.AssignedToUser)) }}</span>
+                                      </a>
+                                  </div>
+                                  <div class="primary">
+                                      <a class="OKRSS" tooltip="Linked Objective from {{getAssingedUser(okr.AssignedByUserType,okr.AssignedByUser)}}" placement="top">
+                                        <span>{{ getNameSymbol(getAssingedUser(okr.AssignedByUserType,okr.AssignedByUser)) }}</span>
+                                      </a>
+                                  </div>
+                                  <div class="content">
+                                      <b><span class="desc pros">{{okr.KeyResultName}}</span></b>
+                                        <input type="range" min="0" max="{{okr.TargetValue}}" class="prosDrag" (change)="okrProgress($event,okr.id,obj.id)" value="{{okr.ProgressValue}}" [disabled]="okr.AssignedToObj || okr.AssignedByObj">
+                                        <!-- <ng5-slider [(value)]="value" [options]="options" (valueChange)="okrProgress($event,okr.id)"></ng5-slider> -->
+                                  </div>
+                                  <div class="actions">
+                                    <button class="btn-outline-o proVal">{{okr.ProgressValue}}%</button>
+                                    <button (click)="menuSelected('okr_comment',okr,$event)" [ngClass]="{'active':newOkrComment==okr?.id }" class="btn-outline-o"><i class="la la-comments"></i></button>
+                                    <div ngbDropdown class="d-inline-block">
+                                      <button class="btn-outline-o" id="dropdownBasic1" ngbDropdownToggle><i class="ion ion-android-more-vertical"></i></button>
+                                      <div class="hiddendropmenu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                      <span *ngIf="okr.AssignedToObj == '0' && okr.AssignedByObj == '0'">
+                                        <button (click)="TargetValue($event,okr.TargetValue,okr.id,obj.id)" ngbDropdownItem><i class="la la-yelp"></i> Change Target Value</button>
+                                        <button (click)="Weightage($event,okr.Weightage,okr.id,obj.id)" ngbDropdownItem><i class="la la-balance-scale"></i> Change Weightage</button>
+                                        <button (click)="menuSelected('edit_okr',okr,$event)" ngbDropdownItem><i class="la la-edit"></i> Edit</button>
+                                        <button (click)="KeyResults('delete',$event,okr.id)" ngbDropdownItem><i class="la la-trash"></i> Delete</button>
+                                      </span>
+                                        <span *ngIf="workingUser == 'Company'">
+                                            <button *ngIf="okr.AssignedToObj != '0' || okr.AssignedByObj != '0'" (click)="UnlinkFromObjective('company',okr.id)" ngbDropdownItem><i class="la la-unlink"></i> Unlink from Objective</button>
+                                        </span>
+                                        <span *ngIf="workingUser == 'Team'">
+                                            <button *ngIf="okr.AssignedToObj != '0' || okr.AssignedByObj != '0'" (click)="UnlinkFromObjective('team',okr.id)" ngbDropdownItem><i class="la la-unlink"></i> Unlink from Objective</button>
+                                        </span>
+                                        <span *ngIf="workingUser == 'Member'">
+                                            <button *ngIf="okr.AssignedToObj != '0' || okr.AssignedByObj != '0'" (click)="UnlinkFromObjective('member',okr.id)" ngbDropdownItem><i class="la la-unlink"></i> Unlink from Objective</button>
+                                        </span>
+                                        
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <!-- List Comment Start -->
+                                <div *ngFor="let cmt of okr.comments;let j = index;" [hidden]="newOkrComment!=okr?.id">
+                                  <div class="item listComment pl30" *ngIf="editComments != cmt.id">
+                                    <div class="primary">
+                                      <span class="getNameSymbol">
+                                        <a>
+                                          <i>{{getNameSymbol(commentedBy(cmt.PostedBy))}}</i>
+                                        </a>
+                                      </span>
+                                    </div>
+                                    <div class="content">
+                                        <b>
+                                          <span class="desc"> 
+                                            <label class="getName">{{commentedBy(cmt.PostedBy)}}</label> {{cmt.Message}}
+                                          </span>
+                                        </b>  
+                                    </div>
+                                    <div class="actions">
+                                      <button class="btn-outline-o lapsedTime" tooltip="Added {{cmt.UpdatedAt | date:'MMM dd, yyyy'}}" placement="top">{{getLapsedTime(cmt.UpdatedAt)}}</button>
+                                      <button class="btn-outline-o"><i class="la la-external-link"></i></button>
+                                      <div ngbDropdown class="d-inline-block">
+                                        <button class="btn-outline-o" id="dropdownBasic1" ngbDropdownToggle><i class="ion ion-android-more-vertical"></i></button>
+                                        <div class="hiddendropmenu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                          <button (click)="menuSelected('edit_comment',cmt,$event)" ngbDropdownItem><i class="la la-edit"></i> Edit</button>
+                                          <button (click)="deleteComment('delete_comment',cmt,$event)" ngbDropdownItem><i class="la la-trash"></i> Delete</button>
+                                        </div>
+                                      </div>
+                                    </div>                                  
+                                  </div>
+                                  <!-- Edit Comment Field Start -->
+                                    <ul class="comments db mb-2" [hidden]="editComments != cmt.id">
+                                      <li class="add pl0 active">
+                                          <div class="item pl15">
+                                              <div class="primary">                                            
+                                                <a>
+                                                  <i class="ion ion-ios-chatbubble-outline"></i>
+                                                </a>
+                                              </div>
+                                              <div class="content">
+                                                  <form class="form-horizontal addcomment cleafix" (submit)="updateComment('update_comment',$event,cmt.id)" style="margin:0;">
+                                                      <input id="edit_comment_field{{cmt.id}}" placeholder="Edit a comment" type="text" autocomplete="off">
+                                                  </form>
+                                              </div>
+                                              <div class="actions editActions">
+                                              </div>
+                                          </div>
+                                      </li>
+                                    </ul>
+                                  <!-- Edit Comment Field End -->
+                                </div>
+                                <!-- List Comment End -->
+                                
+                                <!-- New Comment Field Start -->
+                                <ul class="comments db mb-2" [hidden]="newOkrComment!=okr?.id">
+                                  <li class="add pl0 active">
+                                      <div class="item pl15">
+                                          <div class="primary">                                            
+                                            <a>
+                                              <i class="ion ion-ios-chatbubble-outline"></i>
+                                            </a>
+                                          </div>
+                                          <div class="content">
+                                              <form class="form-horizontal addcomment cleafix" (submit)="addComment('keyresult',$event,okr.id)" style="margin:0;">
+                                                  <input placeholder="Write a comment for key result for : {{okr.KeyResultName}}" id="okr_comment_input_{{okr.id}}" type="text" autocomplete="off">
+                                              </form>
+                                          </div>
+                                          <div class="actions editActions">
+                                          </div>
+                                      </div>
+                                  </li>
+                                </ul>
+                                <!-- New Comment Field End -->
+
+                                <!-- Edit KeyResult Field Start -->
+                                <ul class="comments db" *ngIf="editOkrSel==okr?.id">
+                                  <li class="add pl0 active">
+                                      <div class="item pl15">
+                                          <div class="primary">                                            
+                                            <a>
+                                              <i class="ion ion-ios-plus-outline"></i>
+                                            </a>
+                                          </div>
+                                          <div class="content">
+                                              <form class="form-horizontal addcomment cleafix" (submit)="KeyResults('update',$event,okr.id)" style="margin:0;">
+                                                  <input id="okr_edit_input_{{okr.id}}" placeholder="Edit a key result" type="text" autocomplete="off">
+                                              </form>
+                                          </div>
+                                          <div class="actions editActions">
+                                            <span tooltip="Mention somebody" placement="top"><i class="fa fa-at" aria-hidden="true"></i></span>
+                                            <span tooltip="Add tag" placement="top"><i class="fa fa-hashtag" aria-hidden="true"></i></span>
+                                            <span tooltip="Toggle item privacy" placement="top"><i class="fa fa-eye fa-fw" aria-hidden="true"></i></span>
+                                            <span tooltip="Add emoji" placement="top"><i class="fa fa-smile-o" aria-hidden="true"></i></span>
+                                            <span tooltip="Cancel" (click)="editOkrSel=''" placement="top"><i class="ion ion-close-circled" aria-hidden="true"></i></span>
+                                          </div>
+                                      </div>
+                                  </li>
+                                </ul>
+                                <!-- Edit KeyResult Field End --> 
+
+                              </li>
+
+                              <!-- New KeyResult Field Start -->
+                              <ul class="comments db">
+                                <li class="add pl0 active">
+                                    <div class="item pl15">
+                                        <div class="primary">                                            
+                                          <a>
+                                            <i class="ion ion-ios-plus-outline"></i>
+                                          </a>
+                                        </div>
+                                        <div class="content">
+                                            <form class="form-horizontal addcomment cleafix" (submit)="KeyResults('add',$event,obj.id)" style="margin:0;">
+                                                <input placeholder="Add a new key result for : {{obj.ObjectiveName}}" type="text" autocomplete="off">
+                                            </form>
+                                        </div>
+                                        <div class="actions editActions">
+                                        </div>
+                                    </div>
+                                </li>
+                              </ul>
+                              <!-- New KeyResult Field End -->
+
+                            </ul>
+                            <!-- KeyResult Section End -->
+
+                            
+                          </li>
+                        
+                        </ul>
+                        <!-- New Object Field Start -->
+                        <ul class="comments mt-1 newObjField db">
+                          <li class="add active pl0">
+                              <div class="item">
+                                  <div class="primary">                                            
+                                    <a>
+                                      <i class="ion ion-ios-plus-outline"></i>
+                                    </a>
+                                  </div>
+                                  <div class="content">
+                                      <form class="form-horizontal addcomment cleafix" (submit)="Objective('add',$event,'')" style="margin:0;">
+                                          <input placeholder="Add a quarterly objective for {{workingUserName}}" type="text" id="obj_add_input" autocomplete="off">
+                                      </form>
+                                  </div>
+                                  <div class="actions editActions">
+                                    <span tooltip="Mention somebody" placement="top" ngbDropdown #myDrop="ngbDropdown">
+                                      <span ngbDropdownToggle class="membersToggle"><i class="fa fa-at" aria-hidden="true"></i></span>
+                                      <div ngbDropdownMenu style="left:0">
+                                        <div class="dropdown-item membersDrop" *ngFor="let menu of membersMenu" (click)="appendText('new_obj','obj_add_input','@'+menu.UserName,menu); myDrop.close();">
+                                            <span ngbDropdown class="d-inline-block childMenu">
+                                                {{menu.UserName}}
+                                            </span>
+                                        </div>
+                                      </div>
+                                    </span>
+                                    <span tooltip="Add tag" placement="top"><i class="fa fa-hashtag" aria-hidden="true"></i></span>
+                                    <span tooltip="Toggle item privacy" placement="top"><i class="fa fa-eye fa-fw" aria-hidden="true"></i></span>
+                                    <span tooltip="Add emoji" placement="top"><i class="fa fa-smile-o" aria-hidden="true"></i></span>
+                                  </div>
+                              </div>
+                          </li>
+                        </ul>
+                        <!-- New Object Field End -->
+                      </div>
+                    </div>                       
+
+		            </div>            
+		        </div>
+    		</div>
+  		</div>
+  	</div>
+
+
+    <div style="width: 100%; height: 200px;"></div>
+</div>
+
+<ng-template #dueDate_template let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">CHANGE OBJECTIVE PERIOD</h4>
+      <button type="button" id="closeWeeklyModelBTN" class="close" aria-label="Close" (click)="d('Cross click')" style="position: absolute;
+right: 10px;">
+          <span aria-hidden="true">&times;</span>
+      </button>
+      
+  </div>
+  <div class="modal-body">
+      <div class="center">
+          <div class="btn-group dropdown year">
+              <span style="margin-right: 10px;">
+                  <!-- {{dueDate['year']=2014}} -->
+                  <select name="yearDue" id="" (change)="setDueDate('changeYear',$event)" class="form-control">
+                      <option *ngIf="!setDueYear" value="">2020</option>
+                      <option *ngFor="let y of [2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030]" [value]="y">{{y}}</option>
+                  </select>
+              </span>
+          </div>
+          <div class="btn-group quarter">
+              <a class="btn btn-segmented" [ngClass]="{'active': setDueQuarter==0}" (click)="setDueQuarter='0'">Full year</a>
+              <a class="btn btn-segmented" [ngClass]="{'active': setDueQuarter==1}" (click)="setDueQuarter='1'">Q1</a>
+              <a class="btn btn-segmented" [ngClass]="{'active': setDueQuarter==2}" (click)="setDueQuarter='2'">Q2</a>
+              <a class="btn btn-segmented" [ngClass]="{'active': setDueQuarter==3}" (click)="setDueQuarter='3'">Q3</a>
+              <a class="btn btn-segmented" [ngClass]="{'active': setDueQuarter==4}" (click)="setDueQuarter='4'">Q4</a>
+          </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-orange" (click)="setDueDate('save_obj',setDueQuarter);" style="color:#fff !important">Save</button>
+      <button class="btn btn-orange" (click)="d('Cross click')" style="color:#fff !important">Cancel</button>
+  </div>
+</ng-template>
+
+
+<ng-template #assign_template let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">ASSIGN KEY RESULT AS AN  OBJECTIVE </h4>
+      <button type="button" id="closeAssignPopup" class="close" aria-label="Close" (click)="d('Cross click')" style="position: absolute;
+right: 10px;">
+          <span aria-hidden="true">&times;</span>
+      </button>
+      
+  </div>
+  <div class="modal-body">
+      <div class="row text-center">
+        <div class="col-12">
+          <p>This key result will become a lower level objective.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+
+          <ul class="nav nav-pills nav-secondary justify-content-center" id="assign-tab" role="tablist" style="border-bottom: 1px solid #ddd;">
+            <li class="nav-item ppTab" *ngIf="personalTab">
+              <a class="nav-link" data-toggle="pill" href="#personal" role="tab"
+              aria-controls="pills-profile" aria-selected="false">Personal</a>
+            </li>
+            <li class="nav-item ttTab" *ngIf="teamTab">
+              <a class="nav-link" data-toggle="pill" href="#team" role="tab"
+              aria-controls="pills-profile" aria-selected="false">Team</a>
+            </li> 
+            <li class="nav-item ccTab" *ngIf="companyTab">
+              <a class="nav-link" data-toggle="pill" href="#company" role="tab"
+              aria-controls="pills-profile" aria-selected="false">Company</a>
+            </li> 
+          </ul>
+
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade" id="personal" role="tabpanel" aria-labelledby="pills-home-tab">
+              <!-- For member KeyResult Start -->
+              <div *ngIf="selectedType == 'KeyResult'">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input type="text" [(ngModel)]="filterargs" name="filterargs" class="form-control" placeholder="Search for a person" />
+                    </div>
+                    <div class="form-group">
+                      <small style="color: #b0bec5;">CLICK NAME TO ASSIGN KEY RESULT AS AN OBJECTIVE</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <ul class="listItems" >
+                      <li *ngFor="let person of allPersons.persons | filter:filterargs">
+                        <span (click)="assignItemSelected('member',person)">
+                          <span class="linkUnlink" style="margin: 0px 5px;">
+                              <i *ngIf="assignOKRSelected.id != person.id || assignOKRSelected.id == ''" tooltip="Link" placement="top" class="la la-unlink"></i>
+                              <i *ngIf="assignOKRSelected.id == person.id" tooltip="Unlink" placement="top" class="la la-link"></i>
+                          </span>
+                          <span class="teamPerson">
+                              <b tooltip="{{ person.TeamName }}" placement="top">{{getNameSymbol(person.TeamName)}}</b> {{person.UserName}}
+                          </span>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- For member KeyResult End -->
+
+              <!-- For member Objective Start -->
+              <div *ngIf="selectedType == 'Objective'">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input type="text" [(ngModel)]="filterargs" name="filterargs" class="form-control" placeholder="Search for a objective" />
+                    </div>
+                    <div class="form-group">
+                      <small style="color: #b0bec5;">NOT LINKED — CLICK ON ITEMS TO LINK/UNLINK OBJECTIVES</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <ul class="listItems">
+                      <li *ngFor="let person of foundPersonalObj | filter:filterargs">
+                        <span (click)="assignItemSelected('member',person)">
+                          <span class="linkUnlink" style="margin: 0px 5px;">
+                              <i *ngIf="assignOKRSelected.id != person.id || assignOKRSelected.id == ''" tooltip="Link" placement="top" class="la la-unlink"></i>
+                              <i *ngIf="assignOKRSelected.id == person.id" tooltip="Unlink" placement="top" class="la la-link"></i>
+                          </span>
+                          <span class="teamPerson">
+                              <b tooltip=" {{ person.TeamName }}" placement="top">{{getNameSymbol(person.TeamName)}}</b><small>{{person.UserName}}</small> {{person.ObjectiveName}}
+                          </span>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- For member Objective End -->
+
+            </div>
+            <div class="tab-pane fade" id="team" role="tabpanel" aria-labelledby="pills-home-tab">
+              
+              <!-- For member KeyResult Start -->
+              <div *ngIf="selectedType == 'KeyResult'">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input type="text" [(ngModel)]="filterargs" name="filterargs" class="form-control" placeholder="Search for a person" />
+                    </div>
+                    <div class="form-group">
+                      <small style="color: #b0bec5;">CLICK NAME TO ASSIGN KEY RESULT AS AN OBJECTIVE</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <ul class="listItems" >
+                      <li *ngFor="let person of allPersons.team | filter:filterargs">
+                        <span (click)="assignItemSelected('team',person)">
+                          <span class="linkUnlink" style="margin: 0px 5px;">
+                              <i *ngIf="assignOKRSelected.id != person.id || assignOKRSelected.id == ''" tooltip="Link" placement="top" class="la la-unlink"></i>
+                              <i *ngIf="assignOKRSelected.id == person.id" tooltip="Unlink" placement="top" class="la la-link"></i>
+                          </span>
+                          <span class="teamPerson">
+                              <b tooltip="{{ person.TeamName }}" placement="top">{{getNameSymbol(person.TeamName)}}</b> {{person.TeamName}}
+                          </span>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- For member KeyResult End -->
+
+              <!-- For member Objective Start -->
+              <div *ngIf="selectedType == 'Objective'">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input type="text" [(ngModel)]="filterargs" name="filterargs" class="form-control" placeholder="Search for a objective" />
+                    </div>
+                    <div class="form-group">
+                      <small style="color: #b0bec5;">NOT LINKED — CLICK ON ITEMS TO LINK/UNLINK OBJECTIVES</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <ul class="listItems" >
+                      <li *ngFor="let person of foundTeamObj | filter:filterargs">
+                        <span (click)="assignItemSelected('team',person)">
+                          <span class="linkUnlink" style="margin: 0px 5px;">
+                              <i *ngIf="assignOKRSelected.id != person.id || assignOKRSelected.id == ''" tooltip="Link" placement="top" class="la la-unlink"></i>
+                              <i *ngIf="assignOKRSelected.id == person.id" tooltip="Unlink" placement="top" class="la la-link"></i>
+                          </span>
+                          <span class="teamPerson">
+                              <b tooltip=" {{ person.TeamName }}" placement="top">{{getNameSymbol(person.TeamName)}}</b><small>{{ person.TeamName }}</small> {{person.ObjectiveName}}
+                          </span>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- For member Objective End -->
+            </div>
+            <div class="tab-pane fade" id="company" role="tabpanel" aria-labelledby="pills-home-tab">
+
+              <!-- For member KeyResult Start -->
+              <div *ngIf="selectedType == 'KeyResult'">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input type="text" [(ngModel)]="filterargs" name="filterargs" class="form-control" placeholder="Search for a person" />
+                    </div>
+                    <div class="form-group">
+                      <small style="color: #b0bec5;">CLICK NAME TO ASSIGN KEY RESULT AS AN OBJECTIVE</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <ul class="listItems">
+                      <li *ngFor="let person of allPersons.company | filter:filterargs">
+                        <span (click)="assignItemSelected('company',person)">
+                          <span class="linkUnlink" style="margin: 0px 5px;">
+                              <i *ngIf="assignOKRSelected.id != person.id || assignOKRSelected.id == ''" tooltip="Link" placement="top" class="la la-unlink"></i>
+                              <i *ngIf="assignOKRSelected.id == person.id" tooltip="Unlink" placement="top" class="la la-link"></i>
+                          </span>
+                          <span class="teamPerson">
+                              <b tooltip="{{ person.Name }}" placement="top">{{getNameSymbol(person.Name)}}</b> Company
+                          </span>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- For member KeyResult End -->
+
+              <!-- For member Objective Start -->
+              <div *ngIf="selectedType == 'Objective'">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input type="text" [(ngModel)]="filterargs" name="filterargs" class="form-control" placeholder="Search for a objective" />
+                    </div>
+                    <div class="form-group">
+                      <small style="color: #b0bec5;">NOT LINKED — CLICK ON ITEMS TO LINK/UNLINK OBJECTIVES</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <ul class="listItems" >
+                      <li *ngFor="let person of foundCompanyObj | filter:filterargs">
+                        <span (click)="assignItemSelected('company',person)">
+                          <span class="linkUnlink" style="margin: 0px 5px;">
+                              <i *ngIf="assignOKRSelected.id != person.id || assignOKRSelected.id == ''" tooltip="Link" placement="top" class="la la-unlink"></i>
+                              <i *ngIf="assignOKRSelected.id == person.id" tooltip="Unlink" placement="top" class="la la-link"></i>
+                          </span>
+                          <span class="teamPerson">
+                              <b tooltip=" {{ person.CompanyName }}" placement="top">{{getNameSymbol(person.CompanyName)}}</b><small>Company</small> {{person.ObjectiveName}}
+                          </span>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- For member Objective End -->
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-orange" (click)="submitAssign()" style="color:#fff !important">Save</button>
+  </div>
+</ng-template>
+
+
+<ng-template #targetvalue let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">CHANGE TARGET VALUE</h4>
+      <button type="button" id="closeWeeklyModelBTN" class="close" aria-label="Close" (click)="d('Cross click')" style="position: absolute;
+right: 10px;">
+          <span aria-hidden="true">&times;</span>
+      </button>
+      
+  </div>
+  <div class="modal-body">
+      <div class="center">
+          <div class="row text-center">
+            <div class="col-12">
+              <p>Set Target Value for the OKR %.</p>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <!-- <div class="col-12">
+              <div class="formgroup">
+                <input type="number" min="0" max="100" [(ngModel)]="gTargetValue" name="gTargetValue" class="form-control" value="{{gTargetValue}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter TargetValue" style="max-width: 200px; margin: 0 auto;" />
+              </div>
+            </div> -->
+            <div class="col-10">
+              <div class="formgroup">
+                <!-- <input type="number" min="0" max="100" [(ngModel)]="gWeightage" name="gWeightage" class="form-control" value="{{gWeightage}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter Weightage" style="max-width: 200px; margin: 0 auto;" /> -->
+                <input type="range" min="0" max="100" [(ngModel)]="gTargetValue" name="gTargetValue" value="{{gTargetValue}}"  style="width:100%;" />
+              </div>
+            </div>
+            <div class="col-2">
+              <span class="gWeightage">{{gTargetValue}}%</span>
+            </div>
+          </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-orange" (click)="setTargetValue();" style="color:#fff !important">Save</button>
+      <button class="btn btn-orange" (click)="d('Cross click')" style="color:#fff !important">Cancel</button>
+  </div>
+</ng-template>
+
+
+<ng-template #weightages let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">CHANGE WEIGHTAGE</h4>
+      <button type="button" id="closeWeeklyModelBTN" class="close" aria-label="Close" (click)="d('Cross click')" style="position: absolute;
+  right: 10px;">
+          <span aria-hidden="true">&times;</span>
+      </button>
+      
+  </div>
+  <div class="modal-body">
+      <div class="center">
+          <div class="row text-center">
+            <div class="col-12">
+              <p>Weight is used to increase or decrease importance of a single Key Result when calculating Objective completion %.</p>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-10">
+              <div class="formgroup">
+                <!-- <input type="number" min="0" max="100" [(ngModel)]="gWeightage" name="gWeightage" class="form-control" value="{{gWeightage}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Enter Weightage" style="max-width: 200px; margin: 0 auto;" /> -->
+                <input type="range" min="0" max="100" [(ngModel)]="gWeightage" name="gWeightage" value="{{gWeightage}}"  style="width:100%;" />
+              </div>
+            </div>
+            <div class="col-2">
+              <span class="gWeightage">{{gWeightage}}%</span>
+            </div>
+          </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-orange" (click)="setWeightage();" style="color:#fff !important">Save</button>
+      <button class="btn btn-orange" (click)="d('Cross click')" style="color:#fff !important">Cancel</button>
+  </div>
+</ng-template>
+
+<div class="loader" *ngIf="loading">
+<div class="loader-inner ball-scale-multiple">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+</div>

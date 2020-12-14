@@ -1,0 +1,183 @@
+<div class="container-fluid">
+  <h4 class="page-title">User Management</h4>
+  <div class="card">
+    <div class="card-body" style="min-height: 400px; position: relative;">
+        <div class="row">
+          <div class="col-12">
+                <ul class="nav nav-pills nav-secondary" id="pills-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="pill" href="#companies" role="tab"
+                      aria-controls="pills-profile" aria-selected="false">Companies</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#addMentor" role="tab"
+                      aria-controls="pills-profile" aria-selected="false">Add Mentor</a>
+                  </li> 
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#allocateMentor" role="tab"
+                      aria-controls="pills-profile" aria-selected="false">Allocate Mentor</a>
+                  </li> 
+                </ul>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-12">
+                <div class="tab-content mt-2 mb-3" id="pills-tabContent">
+
+                    <div class="tab-pane fade show active" id="companies" role="tabpanel" aria-labelledby="Companies">
+                        <div class="row">
+                            <div class="col-12">          
+                              <div class="table-responsive">
+                                <table class="table table-bordered">
+                                  <thead class="thead-light">
+                                    <tr class="text-center">
+                                      <th>Name</th>
+                                      <th>Mobile No</th>
+                                      <th>Email Id</th>
+                                      <th>Register Date</th>
+                                      <th>Active</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let user of companies | paginate: { itemsPerPage: 10, currentPage: p }; let id = index">
+                                      <td>{{user.UserName}}</td>
+                                      <td>{{user.Phone}}</td>
+                                      <td>{{user.Email}}</td>
+                                      <td>{{user.CreatedDate | date: 'dd-MM-yyyy'}}</td>
+                                      <td>
+                                        <div class="toggleSwitch">
+                                          <!-- <button type="button" class="btn btn-sm btn-toggle" [ngClass]="user.IsActive == 1 ? 'active' : 'false'" data-toggle="button" (click)="userStatus(user.IsActive, user.id)">
+                                            <div class="handle"></div>
+                                          </button> -->
+                                          <label class="switch" (change)="userStatus(user.IsActive, user.id)">
+                                            <input type="checkbox" [checked]="user.IsActive=='1'">
+                                            <span class="slider round"></span>
+                                          </label>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                              <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                            </div>
+                          </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="addMentor" role="tabpanel" aria-labelledby="Add Mentors">
+                        <div class="row">
+                            <div class="col-12">
+                              <form [formGroup]="form" (ngSubmit)="onSubmit()" autocomplete="off">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="Name">Full Name *</label>
+                                            <input type="text" formControlName="Name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }" placeholder="Enter Full Name" />
+                                            <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+                                                <div *ngIf="f.Name.errors.required">Full Name is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="Email">Email *</label>
+                                            <input type="email" formControlName="Email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Email.errors }" placeholder="Enter Email" />
+                                            <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
+                                                <div *ngIf="f.Email.errors.required">Email is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="Phone">Mobile No *</label>
+                                            <input type="text" formControlName="Phone" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Phone.errors }" placeholder="Enter Mobile No" />
+                                            <div *ngIf="submitted && f.Phone.errors" class="invalid-feedback">
+                                                <div *ngIf="f.Phone.errors.required">Mobile No is required</div>
+                                                <div *ngIf="f.Phone.errors.pattern">Please, Enter 10 digit Mobile Number.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="JobPosition">Job Position *</label>
+                                            <input type="text" formControlName="JobPosition" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.JobPosition.errors }" placeholder="Enter Job Position" />
+                                            <div *ngIf="submitted && f.JobPosition.errors" class="invalid-feedback">
+                                                <div *ngIf="f.JobPosition.errors.required">Job Position is required</div>
+                                            </div>
+                                        </div>
+                                    </div>            
+                                
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="Password">Password *</label>
+                                            <input type="Password" formControlName="Password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Password.errors }" placeholder="Enter Password" />
+                                            <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+                                                <div *ngIf="f.Password.errors.required">Password is required</div>
+                                                <div *ngIf="f.Password.errors.minlength">Password must be at least 6 characters</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group float-right">
+                                            <button [disabled]="loading" class="btn btn-primary">
+                                                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                                Create Account
+                                            </button>                        
+                                        </div>
+                                    </div>
+                                </div>            
+                            </form>
+                            </div>
+                          </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="allocateMentor" role="tabpanel" aria-labelledby="Allocate Mentors">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Select Mentor *</label>
+                                <ng-select [(ngModel)]="sMentor" (change)="getMentor()" [items]="mentors" bindLabel="UserName"
+                                    placeholder="Select Faculty" appendTo="body">
+                                </ng-select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Select Company *</label>
+                                <ng-select [(ngModel)]="sCompany" [items]="companies" bindLabel="UserName"
+                                    placeholder="Select Company" appendTo="body" multiple="true">
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group float-right" *ngIf="!updateAllocation">
+                                    <button [disabled]="loading" (click)="allocate()" class="btn btn-primary">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                        Allocate
+                                    </button>                        
+                                </div>
+                                <div class="form-group float-right" *ngIf="updateAllocation">
+                                    <button [disabled]="loading" (click)="updateAllocate()" class="btn btn-primary">
+                                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                        Update Allocation
+                                    </button>                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          </div>
+      </div> 
+    </div>
+  </div>
+</div>
+<div class="loader" *ngIf="loading">
+<div class="loader-inner ball-scale-multiple">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+</div>
